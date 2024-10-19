@@ -9,7 +9,7 @@ library(plotly)
 # Define the function
 macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_cost, borrowing_cost, nFast_values, nSlow_values, nSig_values, short) {
   
-  warning({
+  suppressWarnings({
     # Download stock data
     getSymbols(asset_name, from = start_date, to = Sys.Date(), src = "yahoo")
   })
@@ -136,7 +136,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   buy_hold_returns <- stock_returns  # Buy and hold returns are just holding stock
   
   # Plot MACD and Signal with the Price
-  chartSeries(stock_data, name = asset_name, TA = paste("addMACD(", best_nFast, ", ", best_nSlow, ", ", best_nSig, ")"))
+  chartSeries(stock_data, name = paste(asset_name,"Closing Price"), TA = paste("addMACD(", best_nFast, ", ", best_nSlow, ", ", best_nSig, ")"))
   
   # Compare MACD Strategy vs Buy-and-Hold Strategy
   comparison_returns <- cbind(buy_hold_returns, strategy_returns)
