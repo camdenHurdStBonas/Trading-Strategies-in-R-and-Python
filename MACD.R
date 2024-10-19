@@ -176,13 +176,27 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   
   print(performance_metrics)
   
-  # Return the performance metrics and store key variables in the environment
-  assign("best_nFast", best_nFast)
-  assign("best_nSlow", best_nSlow)
-  assign("best_nSig", best_nSig)
-  assign("comparison_returns", comparison_returns)
+  # Edges Calculations
+  sharpe_edge <- sharpe_macd - sharpe_bh
+  cum_return_edge <- Return.cumulative(strategy_returns) - Return.cumulative(buy_hold_returns)
+  drawdown_edge <- max_drawdown_bh - max_drawdown_macd
+
+  # Combine all metrics into a data frame
+  edge_metrics <- data.frame(
+    Metric = c("Sharpe Edge","Cmulative Return Edge","Drawdown Edge"),
+    MACD_Strategy = c(sharpe_edge,cum_return_edge,drawdown_edge)
+  )
   
-  return(performance_metrics)
+  print(edge_metrics)
+  
+  # Return the environment and store key variables in the environment
+  obj$best_nFast <- best_nFast
+  obj$best_nSlow <- best_nSlow
+  obj$best_nSig <- best_nSig
+  obj$comparison_returns <- comparison_returns
+  obj$performance_metrics <- performance_metrics
+  
+  return(obj)
 }
 
 # Example of calling the function with parameters
