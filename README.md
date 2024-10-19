@@ -5,10 +5,12 @@ In the future, additional strategies will be added in R and Python to expand the
 
 ## Features
 MACD Trading Strategy: Automatically tests different combinations of MACD parameters and evaluates the performance of the strategy using the Sharpe Ratio.
-- Transaction Costs: Incorporates transaction costs to reflect real-world trading conditions.
-- Shorting Options: Allows users to choose whether the strategy includes shorting or is restricted to long positions.
-- Performance Comparison: Compares MACD strategy to a buy-and-hold strategy using performance metrics like Sharpe Ratio, Max Drawdown, and Annualized Returns.
-- 3D Plot Visualization: Displays the relationship between different MACD parameters and the Sharpe Ratio using an interactive 3D scatter plot.
+- **Risk-Free Rate**: Represents the assumed return on an investment with no risk of financial loss, often based on government treasury yields.
+- **Transaction Costs**: Incorporates transaction costs to reflect real-world trading conditions.
+- **Borrowing Costs**: Includes the cost of borrowing when shorting, allowing the strategy to accurately reflect the expenses associated with taking short positions in the market.
+- **Shorting Options**: Allows users to choose whether the strategy includes shorting or is restricted to long positions.
+- **Performance Comparison**: Compares MACD strategy to a buy-and-hold strategy using performance metrics like Sharpe Ratio, Max Drawdown, and Annualized Returns.
+- **3D Plot Visualization**: Displays the relationship between different MACD parameters and the Sharpe Ratio using an interactive 3D scatter plot.
 
 ## Instructions
 To get started with the MACD strategy in R:
