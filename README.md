@@ -3,6 +3,7 @@ This repository contains algorithmic trading strategies developed in both R and 
 
 In the future, additional strategies will be added in R and Python to expand the scope of algorithmic trading.
 
+# MACD
 ## Features
 MACD Trading Strategy: Automatically tests different combinations of MACD parameters and evaluates the performance of the strategy using the Sharpe Ratio.
 - **Risk-Free Rate**: Represents the assumed return on an investment with no risk of financial loss, often based on government treasury yields.
@@ -84,5 +85,5 @@ strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk
 ![image](https://github.com/user-attachments/assets/68e5aa21-0add-44ec-8d65-dd77a48bd683)
 ![Screenshot 2024-10-19 at 1 59 49 PM](https://github.com/user-attachments/assets/b0a13706-16ad-4c68-b281-7a1cf9f948b0)
 
-## Contribution
+# Contribution
 This repository is open for collaboration, especially for SIMM and the students in the algorithmic trading sector. Feel free to contribute additional trading strategies or improve the existing code!
