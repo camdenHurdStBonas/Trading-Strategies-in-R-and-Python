@@ -65,13 +65,13 @@ source("MACD.R")
 
 # Define the parameters
 asset_name <- "AAPL"
-start_date <- "2019-01-01"
+start_date <- "2018-01-01"
 risk_free_rate <- 0.03   # Annualized risk-free rate
 transaction_cost <- 0.005 # Transaction cost per trade
 borrowing_cost <- .05 # Annualized cost of borrowing
 nFast_values <- seq(1, 30, 1)
-nSlow_values <- seq(1, 60, 1)
-nSig_values <- seq(3, 9, 1)
+nSlow_values <- seq(20, 30, 1)
+nSig_values <- seq(7, 9, 1)
 short <- 0  # 0 = only buy, -1 = buy and short, 1 = only short
 
 # Run the MACD strategy
