@@ -31,7 +31,7 @@ source("MACD.R")
 4. Run the MACD Strategy: Customize the following example code to test a MACD strategy on your chosen asset:
 ```r
 # Define the parameters
-asset_name <- "BTC-USD"
+asset_name <- "AAPL"
 start_date <- "2019-01-01"
 risk_free_rate <- 0.03   # Annualized risk-free rate
 transaction_cost <- 0.005 # Transaction cost per trade
@@ -63,7 +63,7 @@ setwd(path)
 source("MACD.R")
 
 # Define the parameters
-asset_name <- "BTC-USD"
+asset_name <- "AAPL"
 start_date <- "2019-01-01"
 risk_free_rate <- 0.03   # Annualized risk-free rate
 transaction_cost <- 0.005 # Transaction cost per trade
