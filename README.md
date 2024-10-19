@@ -22,10 +22,12 @@ git clone https://github.com/yourusername/Trading-Strategies-in-R-and-Python.git
 ```
 2. Install Required Packages: Ensure that you have all the necessary packages installed by running:
 ```r
+# install the packages (only needs to ran once per directory)
 install.packages(c("quantmod", "PerformanceAnalytics", "TTR", "ggplot2", "parallel", "plotly"))
 ```
 3. Load the Code: Source the MACD strategy function in your R session:
 ```r
+# Source the MACD function
 source("MACD.R")
 ```
 4. Run the MACD Strategy: Customize the following example code to test a MACD strategy on your chosen asset:
@@ -49,13 +51,19 @@ strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk
 
 ## Full Example
 ```r
+# install the packages (only needs to ran once per directory)
 install.packages(c("quantmod", "PerformanceAnalytics", "TTR", "ggplot2", "parallel", "plotly"))
+
 # Clear the workspace
 rm(list = ls())
+
 # Set working directory
 path <- "set/path/here"
 setwd(path)
+
+# Source the MACD function
 source("MACD.R")
+
 # Define the parameters
 asset_name <- "BTC-USD"
 start_date <- "2019-01-01"
@@ -65,9 +73,10 @@ nFast_values <- seq(1, 30, 1)
 nSlow_values <- seq(1, 60, 1)
 nSig_values <- seq(3, 9, 1)
 short <- 0  # 0 = only buy, -1 = buy and short, 1 = only short
+
 # Run the MACD strategy
 strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
 ```
    
 ## Contribution
-This repository is open for collaboration, especially for students in the algorithmic trading sector. Feel free to contribute additional trading strategies or improve the existing code!
+This repository is open for collaboration, especially for SIMM and the students in the algorithmic trading sector. Feel free to contribute additional trading strategies or improve the existing code!
