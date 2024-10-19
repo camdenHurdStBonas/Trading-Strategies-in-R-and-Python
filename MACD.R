@@ -7,13 +7,13 @@ library(parallel)
 library(plotly)
 
 # Define the function
-macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_cost, cost_of_borrowing, nFast_values, nSlow_values, nSig_values, short) {
+macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_cost, borrowing_cost, nFast_values, nSlow_values, nSig_values, short) {
   
   warning({
     # Download stock data
     getSymbols(asset_name, from = start_date, to = Sys.Date(), src = "yahoo")
   })
-    
+  
   # Get closing prices using the asset name
   stock_data <- na.omit(Cl(get(asset_name)))  # Closing price of stock
   stock_returns <- dailyReturn(stock_data)
@@ -73,7 +73,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
     nFast <- results$nFast[i]
     nSlow <- results$nSlow[i]
     nSig <- results$nSig[i]
-    evaluate_macd(nFast, nSlow, nSig, risk_free_rate, transaction_cost, cost_of_borrowing)
+    evaluate_macd(nFast, nSlow, nSig, risk_free_rate, transaction_cost, borrowing_cost)
   }, mc.cores = detectCores() - 1)  # Use available cores minus one
   
   # Ensure SharpeRatio is numeric
@@ -81,14 +81,14 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   
   # 3D Visualization of MACD Parameter Combinations
   three_dim_plot <- plot_ly(data = results, 
-          x = ~nFast, 
-          y = ~nSlow, 
-          z = ~SharpeRatio, 
-          type = 'scatter3d', 
-          mode = 'markers', 
-          marker = list(size = 3), 
-          color = ~SharpeRatio,  # Color based on Sharpe Ratio
-          colors = colorRamp(c("red", "green"))) %>%
+                            x = ~nFast, 
+                            y = ~nSlow, 
+                            z = ~SharpeRatio, 
+                            type = 'scatter3d', 
+                            mode = 'markers', 
+                            marker = list(size = 3), 
+                            color = ~SharpeRatio,  # Color based on Sharpe Ratio
+                            colors = colorRamp(c("red", "green"))) %>%
     layout(title = paste(short_text, "MACD Strategy on", asset_name, "3D Plot by Sharpe Ratio by nFast and nSlow"),
            scene = list(xaxis = list(title = "nFast"),
                         yaxis = list(title = "nSlow"),
@@ -129,7 +129,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   
   # Calculate returns from the strategy
   strategy_returns <- ifelse(signal == 1, stock_returns, 
-                             ifelse(signal == -1, -stock_returns - cost_of_borrowing / 252, risk_free_rate / 252))
+                             ifelse(signal == -1, -stock_returns - borrowing_cost / 252, risk_free_rate / 252))
   strategy_returns <- strategy_returns - transaction_cost * trade_occurred
   
   # Buy-and-hold strategy returns
