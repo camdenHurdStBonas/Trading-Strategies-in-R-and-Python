@@ -7,11 +7,11 @@ library(parallel)
 library(plotly)
 
 # Define the function
-macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_cost, nFast_values, nSlow_values, nSig_values, short) {
+macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_cost, cost_of_borrowing, nFast_values, nSlow_values, nSig_values, short) {
   
   warning({
-  # Download stock data
-  getSymbols(asset_name, from = start_date, to = Sys.Date(), src = "yahoo")
+    # Download stock data
+    getSymbols(asset_name, from = start_date, to = Sys.Date(), src = "yahoo")
   })
     
   # Get closing prices using the asset name
@@ -27,7 +27,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   }
   
   # Function to evaluate MACD with given parameters
-  evaluate_macd <- function(nFast, nSlow, nSig, rf_rate, transaction_cost) {
+  evaluate_macd <- function(nFast, nSlow, nSig, rf_rate, transaction_cost, borrow_cost) {
     # Calculate MACD
     macd_values <- MACD(stock_data, nFast = nFast, nSlow = nSlow, nSig = nSig, maType = "EMA")
     
@@ -51,7 +51,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
     
     # Calculate returns from the strategy based on signals
     strategy_returns <- ifelse(signal == 1, stock_returns, 
-                               ifelse(signal == -1, -stock_returns, rf_rate / 252))
+                               ifelse(signal == -1, -stock_returns - borrow_cost / 252, rf_rate / 252))
     strategy_returns <- strategy_returns - transaction_cost * trade_occurred
     
     # Calculate Sharpe Ratio for the strategy (subtract risk-free rate)
@@ -73,7 +73,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
     nFast <- results$nFast[i]
     nSlow <- results$nSlow[i]
     nSig <- results$nSig[i]
-    evaluate_macd(nFast, nSlow, nSig, risk_free_rate, transaction_cost)
+    evaluate_macd(nFast, nSlow, nSig, risk_free_rate, transaction_cost, cost_of_borrowing)
   }, mc.cores = detectCores() - 1)  # Use available cores minus one
   
   # Ensure SharpeRatio is numeric
@@ -129,7 +129,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   
   # Calculate returns from the strategy
   strategy_returns <- ifelse(signal == 1, stock_returns, 
-                             ifelse(signal == -1, -stock_returns, risk_free_rate / 252))
+                             ifelse(signal == -1, -stock_returns - cost_of_borrowing / 252, risk_free_rate / 252))
   strategy_returns <- strategy_returns - transaction_cost * trade_occurred
   
   # Buy-and-hold strategy returns
@@ -185,5 +185,6 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   return(performance_metrics)
 }
 
-# Example of how to call the function
-# macd_strategy("BTC-USD", "2019-01-01", 0.045, seq(1, 5, 1), seq(1, 15, 1), seq(3, 5, 1), 0)
+# Example of calling the function with parameters
+# Replace with your desired inputs
+# macd_strategy("AAPL", "2018-01-01", 0.03, 0.001, 0.0005, 8:12, 20:30, 7:9, short = -1)
