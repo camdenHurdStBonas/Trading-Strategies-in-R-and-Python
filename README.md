@@ -18,7 +18,6 @@ To get started with the MACD strategy in R:
 1. Clone the Repository:
 Open your terminal or command prompt, and run the following:
 ```bash
-Copy code
 git clone https://github.com/yourusername/Trading-Strategies-in-R-and-Python.git
 ```
 2. Install Required Packages: Ensure that you have all the necessary packages installed by running:
@@ -42,11 +41,33 @@ nSig_values <- seq(3, 9, 1)
 short <- 0  # 0 = only buy, -1 = buy and short, 1 = only short
 
 # Run the MACD strategy
-strategy_1 <- macd_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
+strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
 ```
 5. Analyze the Results: After running the strategy, the function will output the best MACD parameters and performance metrics like the Sharpe Ratio and Max Drawdown. Additionally, you'll get a visual comparison of the strategy versus a buy-and-hold approach.
 6. Visualize Parameter Sensitivity: The function will generate an interactive 3D plot showing how different MACD parameters affect the strategy’s Sharpe Ratio.
 7. Performance Summary: The function will also print a table summarizing the Annualized Returns, Sharpe Ratios, and Max Drawdowns for both the MACD strategy and the buy-and-hold approach.
+
+## Full Example
+```r
+install.packages(c("quantmod", "PerformanceAnalytics", "TTR", "ggplot2", "parallel", "plotly"))
+# Clear the workspace
+rm(list = ls())
+# Set working directory
+path <- "set/path/here"
+setwd(path)
+source("MACD.R")
+# Define the parameters
+asset_name <- "BTC-USD"
+start_date <- "2019-01-01"
+risk_free_rate <- 0.03   # Annualized risk-free rate
+transaction_cost <- 0.005 # Transaction cost per trade
+nFast_values <- seq(1, 30, 1)
+nSlow_values <- seq(1, 60, 1)
+nSig_values <- seq(3, 9, 1)
+short <- 0  # 0 = only buy, -1 = buy and short, 1 = only short
+# Run the MACD strategy
+strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
+```
    
 ## Contribution
 This repository is open for collaboration, especially for students in the algorithmic trading sector. Feel free to contribute additional trading strategies or improve the existing code!
