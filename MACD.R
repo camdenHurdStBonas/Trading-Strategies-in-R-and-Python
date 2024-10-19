@@ -195,6 +195,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   obj$best_nSig <- best_nSig
   obj$comparison_returns <- comparison_returns
   obj$performance_metrics <- performance_metrics
+  obj$edge_metrics <- edge_metrics
   
   return(obj)
 }
