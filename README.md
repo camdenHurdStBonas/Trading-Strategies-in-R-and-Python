@@ -28,6 +28,7 @@ To run the script, you will need the following R packages installed:
 You can install these packages by running:
 ```r
 install.packages(c("quantmod", "PerformanceAnalytics", "TTR", "ggplot2", "parallel", "plotly"))
+```
 
 Instructions
 
