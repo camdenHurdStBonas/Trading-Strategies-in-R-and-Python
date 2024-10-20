@@ -80,10 +80,11 @@ short <- -1  # 0 = only buy, -1 = buy and short, 1 = only short
 # Run the MACD strategy
 strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, borrowinf_cost <- borrowing_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
 ```
-![image](https://github.com/user-attachments/assets/cb59acd5-aae0-4b15-beb8-36418cedacde)
-![image](https://github.com/user-attachments/assets/5b7bc45e-f1f7-4d8a-a4bf-5079f9d60a4e)
-![image](https://github.com/user-attachments/assets/68e5aa21-0add-44ec-8d65-dd77a48bd683)
-![Screenshot 2024-10-19 at 1 59 49 PM](https://github.com/user-attachments/assets/b0a13706-16ad-4c68-b281-7a1cf9f948b0)
+![image](https://github.com/user-attachments/assets/95479c7f-02d8-48f8-84be-f08b651da916)
+![image](https://github.com/user-attachments/assets/b860825b-70d2-48a0-b4d3-769943aec469)
+![image](https://github.com/user-attachments/assets/a369da91-bacc-499e-8711-8936277555b3)
+![image](https://github.com/user-attachments/assets/b928668a-997d-4ea6-a28c-aec464ed64fd)
+
 
 # Contribution
 This repository is open for collaboration, especially for SIMM and the students in the algorithmic trading sector. Feel free to contribute additional trading strategies or improve the existing code!
