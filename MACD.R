@@ -70,7 +70,7 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   stock_data <- na.omit(Cl(get(asset_name)))  # Closing price of stock
   stock_returns <- dailyReturn(stock_data)
   
-  n_periods_per_year <- 365.25
+  n_periods_per_year <- 252
   
   if(short == -1) {
     short_text <- "Buy and Short"
