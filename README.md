@@ -24,7 +24,7 @@ git clone https://github.com/yourusername/Trading-Strategies-in-R-and-Python.git
 2. Install Required Packages: Ensure that you have all the necessary packages installed by running:
 ```r
 # install the packages (only needs to ran once per directory)
-install.packages(c("quantmod", "PerformanceAnalytics", "TTR", "ggplot2", "parallel", "plotly"))
+install.packages(c("quantmod", "PerformanceAnalytics", "TTR", "ggplot2", "parallel", "plotly","zoo","reshape2"))
 ```
 3. Load the Code: Source the MACD strategy function in your R session:
 ```r
