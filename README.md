@@ -38,7 +38,7 @@ asset_name <- "AAPL"
 start_date <- "2018-01-01"
 risk_free_rate <- 0.03   # Annualized risk-free rate
 transaction_cost <- 0.005 # Transaction cost per trade
-borrowing_cost <- .05 # Annualized cost of borrowing
+borrowing_cost <- 0.05 # Annualized cost of borrowing
 nFast_values <- seq(8, 12, 1)
 nSlow_values <- seq(20, 30, 1)
 nSig_values <- seq(7, 9, 1)
@@ -71,7 +71,7 @@ asset_name <- "AAPL"
 start_date <- "2018-01-01"
 risk_free_rate <- 0.03   # Annualized risk-free rate
 transaction_cost <- 0.005 # Transaction cost per trade
-borrowing_cost <- .05 # Annualized cost of borrowing
+borrowing_cost <- 0.05 # Annualized cost of borrowing
 nFast_values <- seq(8, 12, 1)
 nSlow_values <- seq(20, 30, 1)
 nSig_values <- seq(7, 9, 1)
