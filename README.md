@@ -84,7 +84,9 @@ strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk
 ![image](https://github.com/user-attachments/assets/b860825b-70d2-48a0-b4d3-769943aec469)
 ![image](https://github.com/user-attachments/assets/a369da91-bacc-499e-8711-8936277555b3)
 ![image](https://github.com/user-attachments/assets/b928668a-997d-4ea6-a28c-aec464ed64fd)
-
+![Screenshot 2024-10-20 at 3 03 23 PM](https://github.com/user-attachments/assets/867aaeaa-7de1-4a6b-ac07-bee87effd519)
+![Screenshot 2024-10-20 at 3 04 21 PM](https://github.com/user-attachments/assets/bf22e1bf-3318-492e-be1e-d1ac344087f1)
 
 # Contribution
+
 This repository is open for collaboration, especially for SIMM and the students in the algorithmic trading sector. Feel free to contribute additional trading strategies or improve the existing code!
