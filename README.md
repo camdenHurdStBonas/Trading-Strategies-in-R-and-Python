@@ -84,8 +84,11 @@ strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk
 ![image](https://github.com/user-attachments/assets/b860825b-70d2-48a0-b4d3-769943aec469)
 ![image](https://github.com/user-attachments/assets/a369da91-bacc-499e-8711-8936277555b3)
 ![image](https://github.com/user-attachments/assets/b928668a-997d-4ea6-a28c-aec464ed64fd)
+![image](https://github.com/user-attachments/assets/646de65f-114d-422e-b207-df70e9833fbd)
+![image](https://github.com/user-attachments/assets/e58e637f-27d9-4529-a777-690ffe81c6cb)
 ![Screenshot 2024-10-20 at 3 03 23 PM](https://github.com/user-attachments/assets/867aaeaa-7de1-4a6b-ac07-bee87effd519)
 ![Screenshot 2024-10-20 at 3 04 21 PM](https://github.com/user-attachments/assets/bf22e1bf-3318-492e-be1e-d1ac344087f1)
+![Screenshot 2024-10-21 at 12 45 28 PM](https://github.com/user-attachments/assets/e925ac4e-b4e6-43f5-b111-60148079bfad)
 
 # Contribution
 
