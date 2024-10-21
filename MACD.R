@@ -71,6 +71,9 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   stock_returns <- dailyReturn(stock_data)
   
   n_periods_per_year <- 252
+  num_simulations <- 100
+  # Define the number of periods to simulate
+  num_periods <- 4 * n_periods_per_year
   
   if(short == -1) {
     short_text <- "Buy and Short"
@@ -403,6 +406,132 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   suppressWarnings({
   print(rolling_sharpe_plot)
   })
+
+                                   # Function to simulate future prices
+  simulate_future_prices <- function(prices, num_simulations, num_periods) {
+    last_price <- as.numeric(tail(prices, 1))  # Ensure it's a single numeric value
+    returns <- dailyReturn(prices)  # Calculate daily returns
+    mu <- mean(returns, na.rm = TRUE)  # Mean of returns
+    sigma <- sd(returns, na.rm = TRUE)  # Standard deviation of returns
+    
+    simulated_prices <- matrix(0, nrow = num_periods, ncol = num_simulations)
+    for (i in 1:num_simulations) {
+      random_walk <- rnorm(num_periods, mean = mu, sd = sigma)
+      simulated_prices[, i] <- last_price * exp(cumsum(random_walk))  # Simulate future prices
+    }
+    return(simulated_prices)
+  }
+  
+  # Simulate future prices
+  future_prices <- simulate_future_prices(stock_data, num_simulations, num_periods)
+  
+  # Function to run MACD strategy on simulated prices
+  run_macd_strategy_on_simulated_prices <- function(simulated_prices, best_nFast, best_nSlow, best_nSig, short, risk_free_rate, transaction_cost, borrowing_cost) {
+    num_simulations <- ncol(simulated_prices)  # Number of simulated price series
+    num_periods <- nrow(simulated_prices)      # Number of periods in each simulation
+    
+    strategy_returns_list <- vector("list", num_simulations)  # To store returns for each simulation
+    
+    for (i in 1:num_simulations) {
+      prices <- xts(simulated_prices[, i], order.by = seq(from = Sys.Date(), by = "days", length.out = num_periods))  # Convert to xts
+      stock_returns <- dailyReturn(prices)  # Calculate returns for the simulated prices
+      
+      # Calculate MACD using best parameters
+      macd_values <- MACD(prices, nFast = best_nFast, nSlow = best_nSlow, nSig = best_nSig, maType = "EMA")
+      
+      # Create a trading strategy based on MACD crossovers
+      if (short == -1) {
+        signal <- Lag(ifelse(macd_values$macd > macd_values$signal, 1, -1))
+      } else if (short == 1) {
+        signal <- Lag(ifelse(macd_values$macd < macd_values$signal, -1, 0))
+      } else {
+        signal <- Lag(ifelse(macd_values$macd > macd_values$signal, 1, 0))
+      }
+      
+      signal[is.na(signal)] <- 0
+      signal <- na.locf(signal)
+      
+      # Add transaction cost for signal changes
+      signal_shift <- Lag(signal)
+      signal_shift[is.na(signal_shift)] <- 0
+      trade_occurred <- signal != signal_shift
+      
+      # Calculate returns from the strategy
+      strategy_returns <- ifelse(signal == 1, stock_returns, 
+                                 ifelse(signal == -1, -stock_returns - borrowing_cost / n_periods_per_year, risk_free_rate / n_periods_per_year))
+      strategy_returns <- strategy_returns - transaction_cost * trade_occurred
+      
+      strategy_returns_list[[i]] <- strategy_returns  # Store strategy returns for this simulation
+    }
+    
+    return(strategy_returns_list)  # Return a list of strategy returns for each simulation
+  }
+  
+  # Run MACD strategy on the simulated future prices
+  strategy_returns_all_simulations <- run_macd_strategy_on_simulated_prices(future_prices, best_nFast, best_nSlow, best_nSig, short, risk_free_rate, transaction_cost, borrowing_cost)
+  
+  # Function to calculate cumulative returns
+  calculate_cumulative_returns <- function(strategy_returns) {
+    cum_returns <- cumprod(1 + strategy_returns) - 1
+    return(cum_returns)
+  }
+  
+  # Calculate cumulative returns for each simulation
+  cumulative_returns_list <- lapply(strategy_returns_all_simulations, calculate_cumulative_returns)
+  
+  # Combine cumulative returns into a data frame for plotting
+  cumulative_returns_df <- do.call(cbind, cumulative_returns_list)
+  cumulative_returns_df <- as.data.frame(cumulative_returns_df)
+  
+  # Add a period column for x-axis
+  num_periods <- nrow(cumulative_returns_df)
+  cumulative_returns_df$Period <- 1:num_periods
+  
+  # Melt the data frame into long format
+  cumulative_returns_long <- melt(cumulative_returns_df, id.vars = "Period", variable.name = "Simulation", value.name = "CumulativeReturn")
+  
+  # Create the plot
+  monte_carlo_plot <- ggplot(cumulative_returns_long, aes(x = Period, y = CumulativeReturn, group = Simulation, color = Simulation)) +
+    geom_line() +
+    labs(title = "Cumulative Returns of MACD Strategy Simulations",
+         x = "Trading Days",
+         y = "Cumulative Return") +
+    theme_minimal() +
+    theme(legend.position = "none")  # Remove the legend
+  
+  print(monte_carlo_plot)
+  
+  # Print average cumulative return and standard deviation for the last period
+  last_period_index <- num_periods  # Index for the last period
+  
+  # Access the last row excluding the last column (Period)
+  last_period_returns <- cumulative_returns_df[last_period_index, -ncol(cumulative_returns_df)]
+  
+  # Ensure the values are numeric
+  avg_return_last_period <- mean(as.numeric(last_period_returns), na.rm = TRUE)
+  median_return_last_period <- median(as.numeric(last_period_returns), na.rm = TRUE)
+  # Calculate the 10th percentile
+  percentile_10_last_period <- quantile(as.numeric(last_period_returns), probs = 0.10, na.rm = TRUE)
+  std_dev_last_period <- sd(as.numeric(last_period_returns), na.rm = TRUE)
+  max_return_last_period <- max(as.numeric(last_period_returns), na.rm = TRUE)
+  min_return_last_period <- min(as.numeric(last_period_returns), na.rm = TRUE)
+  
+  hist(as.numeric(last_period_returns), 
+       main = "Histogram of Cumulative Returns (Last Period)", 
+       xlab = "Cumulative Returns", 
+       ylab = "Frequency", 
+       col = "skyblue", 
+       border = "black", 
+       breaks = 20)
+  
+  # Print the results
+  cat("Simulation Results:\n")
+  cat("Average Cumulative Return (Last Period):", avg_return_last_period, "\n")
+  cat("Median Cumulative Return (Last Period):", median_return_last_period, "\n")
+  cat("10th Percentile Cumulative Return (Last Period):", percentile_10_last_period, "\n")
+  cat("Standard Deviation of Cumulative Return (Last Period):", std_dev_last_period, "\n")
+  cat("Maximum Cumulative Return (Last Period):", max_return_last_period, "\n")
+  cat("Minimum Cumulative Return (Last Period):", min_return_last_period, "\n")
   
   # Return the environment and store key variables in the environment
   obj$best_nFast <- best_nFast
