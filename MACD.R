@@ -317,8 +317,8 @@ macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_co
   kurtosis_macd <- kurtosis(excess_macd)
   
   # Calculate Tail Ratio manually
-  tail_ratio_bh <- quantile(excess_buy_hold, probs = 0.95) / abs(quantile(excess_buy_hold, probs = 0.05))
-  tail_ratio_macd <- quantile(excess_macd, probs = 0.95) / abs(quantile(excess_macd, probs = 0.05))
+  tail_ratio_bh <- quantile(excess_buy_hold, probs = 0.95, na.rm = TRUE) / abs(quantile(excess_buy_hold, probs = 0.05, na.rm = TRUE))
+  tail_ratio_macd <- quantile(excess_macd, probs = 0.95, na.rm = TRUE) / abs(quantile(excess_macd, probs = 0.05, na.rm = TRUE))
   tail_ratio_edge <- tail_ratio_macd - tail_ratio_bh
   
   # Calculate Recovery Factor
