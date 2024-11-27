@@ -546,4 +546,4 @@ macd_advanced_strategy <- function(asset_name, start_date, risk_free_rate, trans
 
 # Example of calling the function with parameters
 # Replace with your desired inputs
-# macd_strategy("AAPL", "2018-01-01", 0.03, 0.05, 0.005, seq(8,12,1), seq(20,30,1), seq(7,9,1), short = -1)
+# macd_advanced_strategy("AAPL", "2018-01-01", 0.03, 0.05, 0.005, seq(8,12,1), seq(20,30,1), seq(7,9,1), short = -1)
