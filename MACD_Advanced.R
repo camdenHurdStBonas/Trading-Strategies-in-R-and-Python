@@ -1,5 +1,5 @@
 # Define the function
-macd_strategy <- function(asset_name, start_date, risk_free_rate, transaction_cost, borrowing_cost, nFast_values, nSlow_values, nSig_values, short) {
+macd_advanced_strategy <- function(asset_name, start_date, risk_free_rate, transaction_cost, borrowing_cost, nFast_values, nSlow_values, nSig_values, short) {
   
   # Load necessary libraries
   library(quantmod)
