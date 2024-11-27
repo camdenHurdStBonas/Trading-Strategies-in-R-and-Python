@@ -29,7 +29,7 @@ install.packages(c("quantmod", "PerformanceAnalytics", "TTR", "ggplot2", "parall
 3. Load the Code: Source the MACD strategy function in your R session:
 ```r
 # Source the MACD function
-source("MACD.R")
+source("MACD_Advanced.R")
 ```
 4. Run the MACD Strategy: Customize the following example code to test a MACD strategy on your chosen asset:
 ```r
@@ -45,7 +45,7 @@ nSig_values <- seq(7, 9, 1)
 short <- -1  # 0 = only buy, -1 = buy and short, 1 = only short
 
 # Run the MACD strategy
-strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, borrowinf_cost <- borrowing_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
+strategy <- macd_advanced_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, borrowinf_cost <- borrowing_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
 ```
 5. Analyze the Results: After running the strategy, the function will output the best MACD parameters and performance metrics like the Sharpe Ratio and Max Drawdown. Additionally, you'll get a visual comparison of the strategy versus a buy-and-hold approach.
 6. Visualize Parameter Sensitivity: The function will generate an interactive 3D plot showing how different MACD parameters affect the strategy’s Sharpe Ratio.
@@ -64,7 +64,7 @@ path <- "set/path/here"
 setwd(path)
 
 # Source the MACD function
-source("MACD.R")
+source("MACD_Advanced.R")
 
 # Define the parameters
 asset_name <- "AAPL"
@@ -78,7 +78,7 @@ nSig_values <- seq(7, 9, 1)
 short <- -1  # 0 = only buy, -1 = buy and short, 1 = only short
 
 # Run the MACD strategy
-strategy <- macd_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, borrowinf_cost <- borrowing_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
+strategy <- macd_advanced_strategy(asset_name = asset_name, start_date = start_date, risk_free_rate = risk_free_rate, transaction_cost = transaction_cost, borrowinf_cost <- borrowing_cost, nFast_values = nFast_values, nSlow_values = nSlow_values, nSig_values = nSig_values, short = short)
 ```
 ![image](https://github.com/user-attachments/assets/95479c7f-02d8-48f8-84be-f08b651da916)
 ![image](https://github.com/user-attachments/assets/b860825b-70d2-48a0-b4d3-769943aec469)
